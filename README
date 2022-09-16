@@ -1,0 +1,2 @@
+# SpringBoot-Websocket-Stomp
+需要依赖 Redis, 版本 >= 6.2.6
