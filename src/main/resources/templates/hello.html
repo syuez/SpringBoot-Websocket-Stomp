@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <title>Hello!</title>
+</head>
+<body>
+<div>
+    测试
+</div>
+<div>
+    <button class="btn btn-primary" id="connect">连接</button>
+    <button class="btn btn-primary" id="disconnect">断开</button>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/websocket/sockjs.min.js}"></script>
+<script th:src="@{/js/websocket/stomp.min.js}"></script>
+<script>
+    $(document).ready(function (){
+        let stompClient = null;
+        // 建立连接
+        function connect() {
+            if(stompClient == null) {
+                let socket = new SockJS('/stock-ticks');
+                stompClient = new Stomp.over(socket);
+
+                stompClient.connect({}, function(frame) {
+                    // console.log('Connected: ' + frame);
+                    stompClient.subscribe('/topic/hello', function(ticks) {
+                        console.log(ticks);
+                    },{ id: "hello"});
+                });
+            }
+        }
+        // 断开连接
+        function disconnect() {
+            if(stompClient != null) {
+                stompClient.unsubscribe("hello");
+                stompClient.disconnect();
+                stompClient = null;
+            }
+        }
+        // 让页面加载完成时是断开断开连接的
+        disconnect();
+
+        $("#connect").click(function (){
+            connect();
+        });
+
+        $("#disconnect").click(function () {
+            disconnect();
+        });
+    });
+</script>
+</body>
+</html>
