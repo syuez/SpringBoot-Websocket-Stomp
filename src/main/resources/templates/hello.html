@@ -58,6 +58,21 @@
         $("#disconnect").click(function () {
             disconnect();
         });
+
+        // 关闭浏览标签时运行
+        // https://stackoverflow.com/questions/13443503/run-javascript-code-on-window-close-or-page-refresh
+        window.onbeforeunload = closingCode;
+        function closingCode() {
+            disconnect();
+            console.log("断开");
+            return null;
+        }
+        // 在关闭浏览标签时弹出提示
+        // https://dev.to/chromiumdev/sure-you-want-to-leavebrowser-beforeunload-event-4eg5
+        window.addEventListener('beforeunload', (event) => {
+            event.returnValue = `Are you sure you want to leave?`;
+        });
+
     });
 </script>
 </body>
