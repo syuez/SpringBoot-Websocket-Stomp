@@ -21,8 +21,8 @@
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-<script th:src="@{/js/websocket/sockjs.min.js}"></script>
-<script th:src="@{/js/websocket/stomp.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/websocket/sockjs.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/websocket/stomp.min.js}"></script>
 <script>
     $(document).ready(function (){
         let stompClient = null;
